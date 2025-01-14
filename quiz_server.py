@@ -38,7 +38,7 @@ def handle_client(client_socket):
         question_text = f"{question[2]}\n1. {question[3]}\n2. {question[4]}\n3. {question[5]}\n4. {question[6]}"
         client_socket.send(question_text.encode())
         try:
-            client_socket.settimeout(10)
+            client_socket.settimeout(15)
             answer = client_socket.recv(1024).decode()
         except socket.timeout:
             answer = "0"

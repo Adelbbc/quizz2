@@ -178,7 +178,7 @@ class QuizGame:
         self.selected_theme = theme
         self.score = 0
         self.current_question = 0
-        self.time_left = 15
+        self.time_left = 16
 
         if theme == "Aléatoire":
             all_questions = [q for theme_questions in self.questions_by_theme.values() for q in theme_questions]
@@ -203,9 +203,11 @@ class QuizGame:
         for option in question_data["options"]:
             ttk.Button(self.root, text=option, command=lambda o=option: self.check_answer(o)).pack(pady=5)
 
-        self.time_left = 15
+        self.time_left = 16
         self.timer_label = tk.Label(self.root, text=f"Temps restant : {self.time_left} s", font=("Arial", 14), bg="#f0f0f0")
         self.timer_label.pack(pady=20)
+
+ # Démarrer le timer
         self.update_timer()
 
     def update_timer(self):
@@ -214,16 +216,19 @@ class QuizGame:
             self.timer_label.config(text=f"Temps restant : {self.time_left} s")
             self.root.after(1000, self.update_timer)
         else:
-            showinfo("Temps écoulé", "Le temps est écoulé pour cette question !")
-            self.next_question()
+            if not hasattr(self, 'time_alerted') or not self.time_alerted:
+                self.time_alerted = True
+                showinfo("Temps écoulé", "Le temps est écoulé pour cette question !")
+                self.time_alerted = False
+                self.next_question()
 
     def check_answer(self, selected_option):
         question_data = self.questions[self.current_question]
         if selected_option == question_data["answer"]:
-            showinfo("Bonne réponse", "Bravo 👏, c'est la bonne réponse !")
+            showinfo
             self.score += 10
         else:
-            showinfo("Mauvaise réponse", f"Dommage 😔🤷‍♂️💔, la bonne réponse était : {question_data['answer']}")
+            showinfo
         self.next_question()
 
     def next_question(self):
